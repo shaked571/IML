@@ -45,7 +45,7 @@ def get_images_to_ret():
     return [20, 30, 100, 300, 500]
 
 
-def get_all_graph(photo):
+def get_all_graph():
     u, sigma, v_t = svd(photo)
     forb_distance_graph = []
     compression_ratio_graph = []
@@ -55,7 +55,7 @@ def get_all_graph(photo):
         m_k = get_mk(u, diag(zero_k_sigma), v_t)
         img_to_ret = get_images_to_ret()
         comp_k = calculate_compression_ratio(i)
-        if (i in img_to_ret):
+        if i in img_to_ret:
             ret_images.append(m_k)
         compression_ratio_graph.append(comp_k)
         norm_k = norm(photo - m_k)
@@ -90,7 +90,7 @@ def image_tilte(comperssions, normas_dif, i):
 
 
 def main():
-    forb_distance_graph, compression_ratio_graph, images = get_all_graph(photo)
+    forb_distance_graph, compression_ratio_graph, images = get_all_graph()
 
     # ########      plotting the Frobenius distance graph     #######
     show_graph(forb_distance_graph, "forb_distance", compression_ratio_graph, "compression_ratio")
@@ -99,4 +99,5 @@ def main():
     show_images(images)
 
 
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+    main()
