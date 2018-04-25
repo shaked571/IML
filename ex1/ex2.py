@@ -37,14 +37,14 @@ def main():
     test_error = []
     for x in range(1, 100):
         training_data = processed_data.sample(frac=(x/100))
-        testing_data = processed_data.drop(training_data.index)
+        test_data = processed_data.drop(training_data.index)
 
         data_matrix, price_vector = get_data_matrix_and_price_vec(training_data)
-        testing_data_matrix, testing_price_vector = get_data_matrix_and_price_vec(testing_data)
+        testing_data_matrix, testing_price_vector = get_data_matrix_and_price_vec(test_data)
 
-        w = np.dot(data_matrix, price_vector)
-        prediction_value_vector = get_predict_vec(data_matrix, w)
-        testing_prediction_value_vector = np.dot(prediction_value_vector, testing_price_vector)
+        prediction_w = np.dot(data_matrix, price_vector)
+
+        testing_preindiction_value_vector = np.dot(testing_data_matrix, prediction_w)
 
         train_mse = get_mse(prediction_value_vector, price_vector)
         testing_mse = get_mse(testing_prediction_value_vector, testing_price_vector)
