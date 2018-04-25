@@ -81,13 +81,17 @@ def process_data(row_data):
     processed_data = temp_processed_data.dropna(axis=0, how="any")
     return processed_data
 
-def remove_data(df):
-    df.drop(df[(df.price <= 0) | (df.bedrooms <= 0) |
-               (df.bathrooms <= 0) | (df.sqft_living <= 0) |
-               (df.sqft_lot <= 0) | (df.grade <= 0) |
-               (df.sqft_above <= 0) | (df.sqft_basement <= 0)].index,
-            inplace=True)
-    df.dropna(inplace=True)
+def remove_data(origin_matrix):
+    origin_matrix.drop(origin_matrix[(origin_matrix.price <= 0) |
+                                     (origin_matrix.bedrooms <= 0) |
+                                     (origin_matrix.bathrooms <= 0) |
+                                     (origin_matrix.sqft_living <= 0) |
+                                     (origin_matrix.sqft_lot <= 0) |
+                                     (origin_matrix.grade <= 0) |
+                                     (origin_matrix.sqft_above <= 0) |
+                                     (origin_matrix.sqft_basement <= 0)].index,
+                       inplace=True)
+    origin_matrix.dropna(inplace=True)
 
 def clean_unwanted_columns(row_data):
     return row_data.drop(
