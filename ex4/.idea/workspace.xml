@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="dc48868e-08f1-4f10-a8ae-ef9613731754" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/decision_tree.py" afterPath="$PROJECT_DIR$/decision_tree.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ex4_runme.py" afterPath="$PROJECT_DIR$/ex4_runme.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -42,8 +40,8 @@
       <file leaf-file-name="decision_tree.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/decision_tree.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="85" column="64" lean-forward="false" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="64" />
+            <state relative-caret-position="294">
+              <caret line="89" column="45" lean-forward="true" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -394,7 +392,14 @@
       <option name="project" value="LOCAL" />
       <updated>1528558273779</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="a bit more">
+      <created>1528564216267</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1528564216267</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -431,7 +436,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Q3 finish and work" />
     <MESSAGE value="start to work on ex 4" />
-    <option name="LAST_COMMIT_MESSAGE" value="start to work on ex 4" />
+    <MESSAGE value="a bit more" />
+    <option name="LAST_COMMIT_MESSAGE" value="a bit more" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -564,8 +570,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/decision_tree.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="85" column="64" lean-forward="false" selection-start-line="85" selection-start-column="61" selection-end-line="85" selection-end-column="64" />
+        <state relative-caret-position="294">
+          <caret line="89" column="45" lean-forward="true" selection-start-line="89" selection-start-column="45" selection-end-line="89" selection-end-column="45" />
           <folding />
         </state>
       </provider>
