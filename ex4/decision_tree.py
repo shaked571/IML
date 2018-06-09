@@ -65,6 +65,8 @@ class DecisionTree(object):
         -------
         node : an instance of the class Node (can be either a root of a subtree or a leaf)
         """
+        A = 2
+
 
 
 
