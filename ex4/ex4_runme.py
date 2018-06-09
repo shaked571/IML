@@ -36,7 +36,7 @@ def Q3(): # AdaBoost
     plot(list(range(1, 205, 5)), val_error)
     xlabel("Iteration_num")
     ylabel("error")
-    legend(["Training Error", "Validation Error"], loc=7)
+    legend(["Training Error", "Validation Error"], loc=5)
     show()
 
     figure(1)
@@ -45,13 +45,13 @@ def Q3(): # AdaBoost
         adaboost = aba.AdaBoost(DecisionStump, T)
         adaboost.train(X_train, y_train)
         subplot(2, 3, index + 1)
-        decision_boundaries(adaboost, X_train, y_train, "T = " + str(T))
+        decision_boundaries(adaboost, X_train, y_train, "Iteration: " + str(T))
 
-    pause(10)
+    pause(8)
 
-    best_T = val_error.index(np.min(val_error)) * 5
-    print(best_T)
-    ab = aba.AdaBoost(DecisionStump, best_T)
+    best_iteration = val_error.index(np.min(val_error)) * 5
+    print(best_iteration)
+    ab = aba.AdaBoost(DecisionStump, best_iteration)
     ab.train(X_train, y_train)
     print(ab.error(X_test, y_test))
     return

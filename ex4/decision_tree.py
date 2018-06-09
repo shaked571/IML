@@ -16,7 +16,7 @@ class Node(object):
     """ A node in a real-valued decision tree.
         Set all the attributes properly for viewing the tree after training.
     """
-    def __init__(self,leaf = True,left = None,right = None,samples = 0,feature = None,theta = 0.5,misclassification = 0,label = None):
+    def __init__(self, leaf=True, left=None, right=None, samples=0, feature=None, theta=0.5, misclassification=0,label=None):
         """
         Parameters
         ----------
@@ -52,10 +52,9 @@ class DecisionTree(object):
         Train this classifier over the sample (X,y)
         """
 
-    def CART(self,X, y, A, depth):
+    def CART(self, X, y, A, depth):
         """
-        Gorw a decision tree with the CART method ()
-
+        Grow a decision tree with the CART method ()
         Parameters
         ----------
         X, y : sample
@@ -66,6 +65,7 @@ class DecisionTree(object):
         -------
         node : an instance of the class Node (can be either a root of a subtree or a leaf)
         """
+
 
 
     def predict(self, X):
