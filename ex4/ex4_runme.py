@@ -15,15 +15,16 @@ from SynData import *
 from ex4_tools import decision_boundaries, h_opt, DecisionStump
 from matplotlib.pyplot import *
 import adaboost as aba
+import decision_tree as dta
 
+X_train = np.loadtxt("SynData/X_train.txt")
+X_test = np.loadtxt("SynData/X_test.txt")
+X_val = np.loadtxt("SynData/X_val.txt")
+y_train = np.loadtxt("SynData/y_train.txt")
+y_test = np.loadtxt("SynData/y_test.txt")
+y_val = np.loadtxt("SynData/y_val.txt")
 
 def Q3(): # AdaBoost
-    X_train = np.loadtxt("SynData/X_train.txt")
-    X_test = np.loadtxt("SynData/X_test.txt")
-    X_val = np.loadtxt("SynData/X_val.txt")
-    y_train = np.loadtxt("SynData/y_train.txt")
-    y_test = np.loadtxt("SynData/y_test.txt")
-    y_val = np.loadtxt("SynData/y_val.txt")
     val_error = []
     train_error =[]
     for T in range(1, 205, 5):
@@ -57,7 +58,10 @@ def Q3(): # AdaBoost
     return
 
 def Q4(): # decision trees
-    # TODO - implement this function
+    val_error = []
+    train_error = []
+    D = [3, 6, 8, 10, 12]
+
     return
 
 def Q5(): # spam data
