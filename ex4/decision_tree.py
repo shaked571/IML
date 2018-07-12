@@ -1,15 +1,4 @@
-"""
-===================================================
-     Introduction to Machine Learning (67577)
-===================================================
 
-Skeleton for the decision tree classifier with real-values features.
-Training algorithm: CART
-
-Author: Noga Zaslavsky
-Edited: Yoav Wald, May 2018
-
-"""
 import numpy as np
 
 class Node(object):
@@ -35,6 +24,7 @@ class Node(object):
         self.feature = feature
         self.theta = theta
         self.label = label
+        self.misclassification = misclassification
 
 class DecisionTree(object):
     """ A decision tree for binary classification.
@@ -50,60 +40,68 @@ class DecisionTree(object):
         """
         Train this classifier over the sample (X,y)
         """
-        A = np.array([np.unique(X[:,i]) for i in range(X.shape[1])])
-        self.root = self.CART(X, y, A, 0)
+        self.root = self.CART(X, y, self.get_unique_sample(X), 0)
 
     @staticmethod
-    def count_in_region(tag, dim, threshold, X, y):
+    def get_unique_sample(X):
+        A = np.array([np.unique(X[:, i]) for i in range(X.shape[1])])
+        return A
+
+    @staticmethod
+    def get_error_rate(label, dim, threshold, X, y):
         """
-        count the error of labeling a section with a certain tag
-        :param tag: the label
+        count the error of labeling a section with a cetain tag
+        :param label: the label
         :param dim: the dimension of X to split
         :param threshold: the threshold to which we split the data
         :param X: the data
         :param y: the "true" label
         :return: the error rate
         """
-        errors = 0
+        error_rate = 0
         for sample_idx in range(len(X)):
             if X[sample_idx][dim] <= threshold:
-                if y[sample_idx] != tag:
-                    errors += 1
-            elif y[sample_idx] != -tag:
-                errors += 1
-        return errors / len(X)
+                if y[sample_idx] != label:
+                    error_rate += 1
+            elif y[sample_idx] != -label:
+                error_rate += 1
+        return error_rate / len(X)
 
-    def split_tree(self, X, y, A):
+    def split_tree(self,X, y, A):
         """
         calculate the best split for the current section of the data
         """
         min_error = 1
-        min_threshold = 0
-        min_dim = 0
         min_label = 1
+        min_dim = 0
+        min_threshold = 0
         for dim in range(len(A)):
             for threshold in A[dim]:
-                curr_error = DecisionTree.count_in_region(1, dim, threshold, X, y)
-                curr_error_minus1 = 1 - curr_error
-                if curr_error < min_error:
-                    min_error = curr_error
-                    min_threshold = threshold
-                    min_dim = dim
-                    min_label = 1
-                if curr_error_minus1 < min_error:
-                    min_error = curr_error_minus1
-                    min_threshold = threshold
-                    min_dim = dim
-                    min_label = -1
+                curr_error = DecisionTree.get_error_rate(1, dim, threshold, X, y)
+                min_dim, min_error, min_label, min_threshold = self.get_node_param(curr_error, 1 - curr_error, dim,
+                                                                                   min_dim, min_error, min_label,
+                                                                                   min_threshold, threshold)
 
         return Node(False, samples=0, feature=min_dim, theta=min_threshold, label=min_label,
                     misclassification=min_error)
 
-
+    def get_node_param(self, curr_error, curr_error_complementary, dim, min_dim, min_error, min_label, min_threshold,
+                       threshold):
+        if curr_error < min_error:
+            min_error = curr_error
+            min_threshold = threshold
+            min_dim = dim
+            min_label = 1
+        if curr_error_complementary < min_error:
+            min_error = curr_error_complementary
+            min_threshold = threshold
+            min_dim = dim
+            min_label = -1
+        return min_dim, min_error, min_label, min_threshold
 
     def CART(self, X, y, A, depth):
         """
-        Grow a decision tree with the CART method ()
+        Gorw a decision tree with the CART method ()
         Parameters
         ----------
         X, y : sample
@@ -114,9 +112,33 @@ class DecisionTree(object):
         -------
         node : an instance of the class Node (can be either a root of a subtree or a leaf)
         """
+        if depth == self.max_depth:
+            leaf = self.split_tree(X, y, A)
+            leaf.leaf = True
+            return leaf
+        else:
+            new_node = self.split_tree(X, y, A)
+            if new_node.misclassification == 0:
+                new_node.leaf = True
+                return new_node
+            X_less = X[self.get_less_loc(X, new_node)]
+            y_less = y[self.get_less_loc(X, new_node)]
+            if len(X_less) == 0:
+                new_node.left = Node(leaf=True, label=new_node.label)
+            else:
+                A_less = np.array(np.array([np.unique(X_less[:,i]) for i in range(X_less.shape[1])]))
+                new_node.left = self.CART(X_less, y_less, A_less, depth + 1)
+            X_great = X[X[:, new_node.feature] > new_node.theta]
+            y_great = y[X[:, new_node.feature] > new_node.theta]
+            if len(X_great) == 0:
+                new_node.right = Node(leaf=True, label=-new_node.label)
+            else:
+                A_great = np.array(np.array([np.unique(X_great[:,i]) for i in range(X_great.shape[1])]))
+                new_node.right = self.CART(X_great, y_great, A_great, depth + 1)
+            return new_node
 
-
-
+    def get_less_loc(self, X, new_node):
+        return X[:, new_node.feature] <= new_node.theta
 
     def predict(self, X):
         """
@@ -124,7 +146,27 @@ class DecisionTree(object):
         -------
         y_hat : a prediction vector for X
         """
+        y_pred = []
+        for x in X:
+            curr_node = self.root
+            while not curr_node.leaf:
+                curr_node = self.get_leaf(curr_node, x)
+            if curr_node == self.root:
+                if x[curr_node.feature] <= self.root.theta:
+                    y_pred.append(curr_node.label)
+                else:
+                    y_pred.append(-curr_node.label)
+            else:
+                y_pred.append(curr_node.label)
+        return np.array(y_pred)
 
+    @staticmethod
+    def get_leaf(curr_node, x):
+        if x[curr_node.feature] <= curr_node.theta:
+            curr_node = curr_node.left
+        else:
+            curr_node = curr_node.right
+        return curr_node
 
     def error(self, X, y):
         """
@@ -132,3 +174,6 @@ class DecisionTree(object):
         -------
         the error of this classifier over the sample (X,y)
         """
+        y_hat = self.predict(X)
+        y = np.array(y)
+        return sum(y[i] != y_hat[i] for i in range(len(y))) / len(y)
